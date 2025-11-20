@@ -540,11 +540,42 @@ img {
     background: var(--white);
 }
 
-.brands-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 30px;
+.brands-container {
+    overflow: hidden;
+    width: 100%;
     margin-top: 50px;
+    position: relative;
+}
+
+.brands-track {
+    display: flex;
+    gap: 40px;
+    animation: scrollBrands 30s linear infinite;
+    width: fit-content;
+}
+
+.brands-track:hover {
+    animation-play-state: paused;
+}
+
+.brands-grid {
+    display: flex;
+    gap: 40px;
+    width: fit-content;
+}
+
+@keyframes scrollBrands {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Duplicate brands for seamless loop */
+.brands-track .brands-grid:nth-child(2) {
+    animation: none;
 }
 
 .brand-card {
@@ -559,6 +590,8 @@ img {
     align-items: center;
     justify-content: center;
     min-height: 150px;
+    flex-shrink: 0;
+    min-width: 180px;
 }
 
 .brand-card:hover {
@@ -571,12 +604,12 @@ img {
     max-width: 100%;
     max-height: 100px;
     object-fit: contain;
-    filter: grayscale(100%);
-    transition: filter 0.3s ease;
+    filter: grayscale(0%);
+    transition: transform 0.3s ease;
 }
 
 .brand-card:hover .brand-logo-img {
-    filter: grayscale(0%);
+    transform: scale(1.1);
 }
 
 .brand-logo-fallback {
