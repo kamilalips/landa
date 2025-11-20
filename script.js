@@ -283,8 +283,29 @@ const debouncedScroll = debounce(() => {
 
 window.addEventListener('scroll', debouncedScroll);
 
-// Initialize on page load
+// Handle image loading errors gracefully
+function handleImageError(img) {
+    img.style.display = 'none';
+    img.onerror = null; // Prevent infinite loop
+    return true;
+}
+
+// Add error handlers to all images
 document.addEventListener('DOMContentLoaded', () => {
+    // Handle all images
+    const allImages = document.querySelectorAll('img');
+    allImages.forEach(img => {
+        // If image fails to load, hide it (background will show)
+        img.addEventListener('error', function() {
+            this.style.display = 'none';
+        });
+        
+        // Check if image src is empty or invalid
+        if (!img.src || img.src.endsWith('/') || img.src.includes('undefined')) {
+            img.style.display = 'none';
+        }
+    });
+    
     // Set initial active nav link
     if (window.location.hash) {
         const targetSection = document.querySelector(window.location.hash);
