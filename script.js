@@ -283,51 +283,43 @@ const debouncedScroll = debounce(() => {
 
 window.addEventListener('scroll', debouncedScroll);
 
-// Handle image loading errors gracefully
-function handleImageError(img) {
-    img.style.display = 'none';
-    img.onerror = null; // Prevent infinite loop
-    return true;
-}
+// Transparent 1x1 pixel to prevent 404 errors
+const TRANSPARENT_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
-// Prevent 404 errors by checking image existence or using placeholders
-async function checkImageExists(url) {
-    try {
-        const response = await fetch(url, { method: 'HEAD', mode: 'no-cors' });
-        return true;
-    } catch {
-        return false;
-    }
+// Prevent 404 errors by replacing missing images with transparent pixel
+function preventImage404(img) {
+    const originalSrc = img.getAttribute('src');
+    
+    // Create a test image to check if file exists
+    const testImg = new Image();
+    testImg.onerror = () => {
+        // Image doesn't exist - use transparent pixel to prevent 404
+        img.src = TRANSPARENT_PIXEL;
+        img.style.display = 'none';
+        
+        // For brand logos, show text fallback
+        if (img.classList.contains('brand-logo-img')) {
+            const fallback = img.nextElementSibling;
+            if (fallback && fallback.classList.contains('brand-logo-fallback')) {
+                fallback.style.display = 'block';
+            }
+        }
+    };
+    testImg.onload = () => {
+        // Image exists - keep original src
+        img.src = originalSrc;
+    };
+    
+    // Test if image exists (this will trigger onerror if 404)
+    testImg.src = originalSrc;
 }
 
 // Add error handlers to all images and prevent 404s
 document.addEventListener('DOMContentLoaded', () => {
-    // Handle all images - set display none immediately if they fail
-    const allImages = document.querySelectorAll('img');
+    // Handle all images - prevent 404s by checking existence first
+    const allImages = document.querySelectorAll('img[src^="images/"]');
     allImages.forEach(img => {
-        // Set error handler before image loads
-        img.addEventListener('error', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.style.display = 'none';
-            this.onerror = null;
-            return false;
-        }, true);
-        
-        // Check if image src is empty or invalid
-        if (!img.src || img.src.endsWith('/') || img.src.includes('undefined')) {
-            img.style.display = 'none';
-        }
-        
-        // For brand logos, ensure fallback shows
-        if (img.classList.contains('brand-logo-img')) {
-            img.addEventListener('error', function() {
-                const fallback = this.nextElementSibling;
-                if (fallback && fallback.classList.contains('brand-logo-fallback')) {
-                    fallback.style.display = 'block';
-                }
-            });
-        }
+        preventImage404(img);
     });
     
     // Set initial active nav link
