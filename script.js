@@ -29,10 +29,11 @@ if (acceptCookiesBtn) {
 
 checkCookieConsent();
 
-// Sticky Navigation
+// Sticky Navigation - optimized with requestAnimationFrame
 let lastScroll = 0;
+let navTicking = false;
 
-window.addEventListener('scroll', () => {
+function updateNavbar() {
     const currentScroll = window.pageYOffset;
     
     if (currentScroll > 100) {
@@ -42,7 +43,15 @@ window.addEventListener('scroll', () => {
     }
     
     lastScroll = currentScroll;
-});
+    navTicking = false;
+}
+
+window.addEventListener('scroll', () => {
+    if (!navTicking) {
+        window.requestAnimationFrame(updateNavbar);
+        navTicking = true;
+    }
+}, { passive: true });
 
 // Mobile Menu Toggle
 if (mobileMenuToggle) {
