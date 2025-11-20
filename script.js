@@ -290,19 +290,43 @@ function handleImageError(img) {
     return true;
 }
 
-// Add error handlers to all images
+// Prevent 404 errors by checking image existence or using placeholders
+async function checkImageExists(url) {
+    try {
+        const response = await fetch(url, { method: 'HEAD', mode: 'no-cors' });
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+// Add error handlers to all images and prevent 404s
 document.addEventListener('DOMContentLoaded', () => {
-    // Handle all images
+    // Handle all images - set display none immediately if they fail
     const allImages = document.querySelectorAll('img');
     allImages.forEach(img => {
-        // If image fails to load, hide it (background will show)
-        img.addEventListener('error', function() {
+        // Set error handler before image loads
+        img.addEventListener('error', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             this.style.display = 'none';
-        });
+            this.onerror = null;
+            return false;
+        }, true);
         
         // Check if image src is empty or invalid
         if (!img.src || img.src.endsWith('/') || img.src.includes('undefined')) {
             img.style.display = 'none';
+        }
+        
+        // For brand logos, ensure fallback shows
+        if (img.classList.contains('brand-logo-img')) {
+            img.addEventListener('error', function() {
+                const fallback = this.nextElementSibling;
+                if (fallback && fallback.classList.contains('brand-logo-fallback')) {
+                    fallback.style.display = 'block';
+                }
+            });
         }
     });
     

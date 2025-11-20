@@ -1251,6 +1251,19 @@ img {
 img[src=""],
 img:not([src]) {
     opacity: 0;
+    display: none;
+}
+
+/* Suppress broken image icon */
+img::before {
+    content: '';
+    display: block;
+}
+
+/* Ensure error images don't show broken icon */
+img[alt]:not([src]),
+img:not([src]) {
+    visibility: hidden;
 }
 
 .brand-logo-img {
