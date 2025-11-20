@@ -813,7 +813,10 @@ img {
 }
 
 .product-category-text {
-    padding: 20px;
+    padding: 30px;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
 }
 
 .product-category-text h3 {
@@ -1266,7 +1269,6 @@ textarea:focus {
 
 .service-image::before,
 .gallery-item::before,
-.product-category-image::before,
 .about-image::before {
     content: '';
     position: absolute;
@@ -1275,6 +1277,17 @@ textarea:focus {
     right: 0;
     bottom: 0;
     background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
+    z-index: -1;
+}
+
+.product-category-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--light-gray);
     z-index: -1;
 }
 
