@@ -79,17 +79,19 @@ navLinks.forEach(link => {
     });
 });
 
-// Active Navigation Link on Scroll
+// Active Navigation Link on Scroll - optimized with requestAnimationFrame
 const sections = document.querySelectorAll('.section, .hero');
+let ticking = false;
 
-window.addEventListener('scroll', () => {
+function updateActiveNav() {
     let current = '';
+    const scrollPosition = window.pageYOffset + 100;
     
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
         
-        if (window.pageYOffset >= sectionTop - 200) {
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
             current = section.getAttribute('id');
         }
     });
@@ -100,7 +102,16 @@ window.addEventListener('scroll', () => {
             link.classList.add('active');
         }
     });
-});
+    
+    ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        window.requestAnimationFrame(updateActiveNav);
+        ticking = true;
+    }
+}, { passive: true });
 
 
 // Scroll Animations
@@ -179,10 +190,11 @@ function showFormMessage(message, type) {
 
 // Removed parallax effect - was causing scroll jumping
 
-// Hide/Show Floating Action Buttons on Scroll
+// Hide/Show Floating Action Buttons on Scroll - optimized
 let lastScrollPosition = 0;
+let fabTicking = false;
 
-window.addEventListener('scroll', () => {
+function updateFAB() {
     const currentScrollPosition = window.pageYOffset;
     
     if (fabContainer) {
@@ -198,7 +210,15 @@ window.addEventListener('scroll', () => {
     }
     
     lastScrollPosition = currentScrollPosition;
-});
+    fabTicking = false;
+}
+
+window.addEventListener('scroll', () => {
+    if (!fabTicking) {
+        window.requestAnimationFrame(updateFAB);
+        fabTicking = true;
+    }
+}, { passive: true });
 
 // Initialize FAB container styles
 if (fabContainer) {

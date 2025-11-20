@@ -22,6 +22,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 80px;
 }
 
 body {
@@ -31,6 +32,8 @@ body {
     color: var(--text-dark);
     background-color: var(--white);
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
@@ -815,10 +818,11 @@ img {
 }
 
 .product-category-text {
-    padding: 30px;
+    padding: 40px;
     background: var(--white);
     border-radius: 10px;
     box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
 }
 
 .product-category-text h3 {
