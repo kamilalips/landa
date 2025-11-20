@@ -237,6 +237,15 @@ img {
     width: 100%;
     height: 100%;
     z-index: 0;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 50%, #1a1a1a 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 10s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .hero-image {
@@ -244,6 +253,12 @@ img {
     height: 100%;
     object-fit: cover;
     object-position: center;
+    display: block;
+}
+
+.hero-image[src=""],
+.hero-image:not([src]) {
+    opacity: 0;
 }
 
 .hero-overlay {
@@ -504,6 +519,7 @@ img {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: var(--shadow-hover);
+    background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
 }
 
 .about-img {
@@ -511,6 +527,12 @@ img {
     height: 100%;
     object-fit: cover;
     min-height: 500px;
+    display: block;
+}
+
+.about-img[src=""],
+.about-img:not([src]) {
+    opacity: 0;
 }
 
 /* Brands Section */
@@ -595,6 +617,7 @@ img {
     height: 200px;
     overflow: hidden;
     position: relative;
+    background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
 }
 
 .service-img {
@@ -602,6 +625,12 @@ img {
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
+    display: block;
+}
+
+.service-img[src=""],
+.service-img:not([src]) {
+    opacity: 0;
 }
 
 .service-card:hover .service-img {
@@ -657,6 +686,7 @@ img {
     box-shadow: var(--shadow);
     cursor: pointer;
     aspect-ratio: 4/3;
+    background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
 }
 
 .gallery-img {
@@ -664,6 +694,12 @@ img {
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
+    display: block;
+}
+
+.gallery-img[src=""],
+.gallery-img:not([src]) {
+    opacity: 0;
 }
 
 .gallery-item:hover .gallery-img {
@@ -721,6 +757,7 @@ img {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: var(--shadow-hover);
+    background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
 }
 
 .category-img {
@@ -729,6 +766,12 @@ img {
     object-fit: cover;
     min-height: 400px;
     transition: transform 0.3s ease;
+    display: block;
+}
+
+.category-img[src=""],
+.category-img:not([src]) {
+    opacity: 0;
 }
 
 .product-category:hover .category-img {
@@ -1175,43 +1218,39 @@ textarea:focus {
     }
 }
 
-/* Image fallback styles */
-img {
-    background: var(--light-gray);
-    background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
-                      linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
-                      linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
-                      linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
-    background-size: 20px 20px;
-    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-}
-
-.hero-image,
-.about-img,
-.service-img,
-.gallery-img,
-.category-img {
-    background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
-    position: relative;
-}
-
-.hero-image::after,
-.about-img::after,
-.service-img::after,
-.gallery-img::after,
-.category-img::after {
-    content: 'Image';
+/* Image fallback styles - ensure containers always show background */
+.hero-image-container::before {
+    content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    pointer-events: none;
-    font-family: 'Montserrat', sans-serif;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 50%, #1a1a1a 100%);
+    z-index: -1;
+}
+
+.service-image::before,
+.gallery-item::before,
+.product-category-image::before,
+.about-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
+    z-index: -1;
+}
+
+img {
+    display: block;
+}
+
+img[src=""],
+img:not([src]) {
+    opacity: 0;
 }
 
 .brand-logo-img {
