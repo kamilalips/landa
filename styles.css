@@ -790,7 +790,8 @@ img {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: var(--shadow-hover);
-    background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
+    background: var(--light-gray);
+    border: 2px solid var(--border-color);
 }
 
 .category-img {
