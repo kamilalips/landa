@@ -7,8 +7,6 @@ const cookieNotice = document.getElementById('cookie-notice');
 const acceptCookiesBtn = document.getElementById('accept-cookies');
 const contactForm = document.getElementById('contact-form');
 const formMessage = document.getElementById('form-message');
-const tabButtons = document.querySelectorAll('.tab-btn');
-const productCards = document.querySelectorAll('.product-card');
 const fabContainer = document.querySelector('.fab-container');
 
 // Cookie Notice
@@ -104,30 +102,6 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// Product Filter Tabs
-tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Remove active class from all buttons
-        tabButtons.forEach(b => b.classList.remove('active'));
-        // Add active class to clicked button
-        btn.classList.add('active');
-        
-        const category = btn.getAttribute('data-tab');
-        
-        productCards.forEach(card => {
-            if (category === 'all') {
-                card.classList.remove('hidden');
-            } else {
-                const cardCategory = card.getAttribute('data-category');
-                if (cardCategory === category) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            }
-        });
-    });
-});
 
 // Scroll Animations
 const observerOptions = {
@@ -145,7 +119,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe all sections and cards
-document.querySelectorAll('.section, .brand-card, .service-card, .product-card').forEach(el => {
+document.querySelectorAll('.section, .brand-card, .service-card, .gallery-item, .product-category').forEach(el => {
     observer.observe(el);
 });
 
@@ -333,6 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Console message for developers
-console.log('%cLanda PL Website', 'color: #ff6b35; font-size: 20px; font-weight: bold;');
+console.log('%cLanda Website', 'color: #ff6b35; font-size: 20px; font-weight: bold;');
 console.log('%cOficjalny dystrybutor Novol Professional i Novol Industria', 'color: #666; font-size: 12px;');
 
