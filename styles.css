@@ -228,6 +228,7 @@ img {
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    will-change: auto;
 }
 
 .hero-image-container {
@@ -763,7 +764,7 @@ img {
 
 /* Products Section */
 .products {
-    background: var(--white);
+    background: var(--light-gray);
 }
 
 .products-content {
@@ -789,9 +790,10 @@ img {
 .product-category-image {
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: var(--shadow-hover);
-    background: var(--light-gray);
-    border: 2px solid var(--border-color);
+    box-shadow: var(--shadow);
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    position: relative;
 }
 
 .category-img {

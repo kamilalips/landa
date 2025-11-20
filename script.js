@@ -177,15 +177,7 @@ function showFormMessage(message, type) {
     }
 }
 
-// Parallax Effect for Hero Section
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        const rate = scrolled * 0.5;
-        hero.style.transform = `translateY(${rate}px)`;
-    }
-});
+// Removed parallax effect - was causing scroll jumping
 
 // Hide/Show Floating Action Buttons on Scroll
 let lastScrollPosition = 0;
